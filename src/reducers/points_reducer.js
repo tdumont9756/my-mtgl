@@ -1,11 +1,21 @@
-export default function pointReducer(points = 0, action){
+/*
+  issue is the way that Points is being passed to the points reducer.  Investigate
+  here!
+*/
+
+
+// the action should be passing the correct payload.
+//points reducer should just be updating the state.
+export default function pointReducer(state = {points:0}, action){
+
   switch(action.type){
     case 'INCREMENT' :
-      console.log("increment reducer is firing and points is "+ points);
-      return  points++;
+      let tmp = Object.assign({},state, {points: action.payload});
+      console.log(tmp);
+      return   Object.assign({},state, {points: action.payload});
     case 'DECREMENT':
-      return points--;
+      return   Object.assign({},state, {points: action.payload});
     default:
-      return points;
+      return state;
   }
 }

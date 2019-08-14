@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Player from './player';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {incrementPointsAction, decrementPointsAction} from './../actions/myActions';
 
@@ -8,22 +9,23 @@ class PlayerListComponent extends Component{
 
   constructor(props){
     super(props);
+    console.log("the props are next:  ");
     console.log(this.props);
-    this.state = {points: this.props.points};
-    this.incrementShit = this.testing.bind(this);
+    this.state = {points: this.props.points,
+                  increment: this.props.incrementPointsAction
+                };
   }
 
-  testing = ()=> {console.log("By god ive got it!");};
 
 
   render(){
-    console.log("is props.increnent def?::::" + this.props.increment);
     return(
       <div>
         <Player
           name="Tommy"
-          incrementer={this.props.increment}
-          points={this.state.points} />
+          incrementer={this.state.increment}
+          decrementer = {this.props.decrementPointsAction}
+          points={this.props.points} />
       </div>
 
     );
@@ -32,17 +34,13 @@ class PlayerListComponent extends Component{
 
 
 const mapStateToProps = (state) => {
-  console.log("mapStateToProps is firing" + state);
-  return {points: state.points};
+  let points = state.pointsReducerKey.points;
+  console.log("the value of points in mapStateToProps " + points);
+  return {points};
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  console.log("this is the ownProps:;:  " + ownProps.points);
-  return {
-    // dispatching plain actions
-    increment: (points) => dispatch(incrementPointsAction(points)),
-    decrement: () => dispatch(decrementPointsAction(ownProps.points))
-  }
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({incrementPointsAction, decrementPointsAction}, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps )(PlayerListComponent);

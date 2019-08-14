@@ -1,15 +1,15 @@
 export const incrementPointsAction = (points)=>{
-  console.log("increment action is firing");
+  console.log("at the action level, points are currently: " + points);
   return({
-    'type': 'INCREMENT',
-    'payload': points
+    type: 'INCREMENT',
+    payload: points + 1
   });
 }
 
 
 export const decrementPointsAction = (points) =>{
   return({
-    'type': 'DECREMENT',
-    'payload': points
+    type: 'DECREMENT',
+    payload: points - 1
   });
 }
